@@ -1,5 +1,10 @@
+import os
 import requests
+from dotenv import load_dotenv
 from common.actions import ConvertAmount, ConvertResult, ConvertAmountSuccess
+
+# Load environment variables from .env
+load_dotenv()
 
 
 def convertAmount(request: ConvertAmount):
@@ -24,7 +29,8 @@ def convertAmount(request: ConvertAmount):
 def cryptoConvert(
     senderCurrencyCode: str, receiverCurrencyCode: str, cryptoCode: str, amount: float
 ):
-    apiKey = "c1426ed39f4fe6ad9c78119240917d84a11a2cff08a4c5ba3391ebd5b7e38cbc"
+    # Retrieve the API key from the environment variables
+    apiKey = os.getenv("CRYPTO_API_KEY")
 
     url = "https://min-api.cryptocompare.com/data/price"
     currencyCode = f"{senderCurrencyCode},{receiverCurrencyCode}"
@@ -45,11 +51,13 @@ def cryptoConvert(
 
 
 def fiatConvert(senderCurrency, amount, receiverCurrency):
-    url3 = f"https://api.wise.com/v3/comparisons?sourceCurrency={senderCurrency}&targetCurrency={receiverCurrency}&sendAmount={amount}"
+    # Retrieve the API URL from the environment variables
+    wise_api_url = os.getenv("WISE_API_URL")
+    url = f"{wise_api_url}?sourceCurrency={senderCurrency}&targetCurrency={receiverCurrency}&sendAmount={amount}"
 
     headers = {"accept": "application/json"}
 
-    response = requests.get(url3, headers=headers)
+    response = requests.get(url, headers=headers)
     data = response.json()
 
     # Extract providers array
@@ -76,7 +84,7 @@ def fiatConvert(senderCurrency, amount, receiverCurrency):
                 fee = first_quote.get("fee")
                 received_amount = first_quote.get("receivedAmount")
 
-                # Include alias in the extracted information
+                # Include name in the extracted information
                 info = {
                     "Provider": name,
                     "Rate": rate,
