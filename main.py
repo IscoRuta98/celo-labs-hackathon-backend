@@ -29,8 +29,6 @@ app.add_middleware(
 )
 
 
-@app.post(
-    "/auth/create", response_model=ConvertResult, status_code=status.HTTP_201_CREATED
-)
+@app.post("/convert", response_model=ConvertResult, status_code=status.HTTP_201_CREATED)
 async def post_convert_amount(request: ConvertAmount) -> ConvertResult:
     return convertAmount(request)
