@@ -16,9 +16,7 @@ from common.operations import convertAmount
 # if app_settings.staging_mode:
 #     origins.append("http://localhost:4200")
 
-origins = [
-    "http://localhost:4200",
-]
+origins = ["*"]
 
 
 app = FastAPI()
