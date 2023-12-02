@@ -7,16 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from common.actions import ConvertAmount, ConvertResult
 from common.operations import convertAmount
 
-
-# from settings import AppSettings
-
-# app_settings = AppSettings()
-
-# origins = [str(app_settings.primary_origin)]
-# if app_settings.staging_mode:
-#     origins.append("http://localhost:4200")
-
-origins = ["http://localhost:8080"]
+origins = ["http://localhost:8080", "https://crypro-remittance-comparison.netlify.app"]
 
 
 app = FastAPI()
